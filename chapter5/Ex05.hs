@@ -35,7 +35,8 @@ perfects :: Int -> [Int]
 perfects n = [x | x <- [1..n], perfect x]
 
 {-7-}
---(if you are using stack) to test this witch QuickCheck just type "stack ghci --package QuickCheck" instead of "stack ghci" Then run quickCheck prop_eq in the console 
+--(if you are using stack) to test this witch QuickCheck just type "stack ghci --package QuickCheck" instead of "stack ghci" Then run quickCheck 
+--prop_eq in the console 
 prop_eq_7 xs ys = 
   [(x,y) | x <- xs, y <- ys] == concat [[(x,y) | y <- ys] | x <- xs]
 

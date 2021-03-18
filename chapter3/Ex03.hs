@@ -23,5 +23,5 @@ twice :: (a -> a) -> a -> a
 twice f x = f (f x)
 
 {-exercise 5-}
---functions cannot be of type Eq because two functions f and g are equivalent if they produce the same output for the same output, that is
---f a == g a for all a. Since type Integer has infinitely many representors this would require an infinite number of checks, hence it's not possible.
+--functions cannot be of type Eq because two functions f and g are equivalent if for every input they produce the same output, that is
+--f a == g a for all a. There being infinitely many integers makes checking this property impossible.

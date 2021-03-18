@@ -1,2 +1,2 @@
 # pih
-Solutions to Programming in Haskell by Graham Hutton
+Various solutions to exercises from "Programming in Haskell" by Graham Hutton

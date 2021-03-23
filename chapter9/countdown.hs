@@ -8,12 +8,13 @@
   Numbers in the sequence are positive integers and each number can only be used once.
 -}
 
-data Op = Add | Sub | Mul | Div
+data Op = Add | Sub | Mul | Div | Exp
 instance Show Op where
   show Add = "+"
   show Sub = "-"
   show Mul = "*"
   show Div = "/"
+  show Exp = "^"
 
 --is the operation valid (in the sense that it is a well defined operation from N -> N)
 --optimised in the sense that it exploits certain algebraic properties such that e.g 3+2 is not generated bc 2+3 was generated
@@ -21,13 +22,15 @@ valid :: Op -> Int -> Int -> Bool
 valid Add x y = x > y
 valid Sub x y = x > y
 valid Mul x y = x /= 1 && y /= 1 && x <= y
-valid Div x y = y /= 1 && x `mod` y == 0 
+valid Div x y = y /= 1 && x `mod` y == 0
+valid Exp x y = y >= 0 && x >= 0  && y /= 1
 
 apply :: Op -> Int -> Int -> Int
 apply Add x y = x + y
 apply Sub x y = x - y
 apply Mul x y = x * y
 apply Div x y = div x y
+apply Exp x y = x ^ y
 
 data Expr = Val Int | App Op Expr Expr
 instance Show Expr where
@@ -91,7 +94,7 @@ combine :: Expr -> Expr -> [Expr]
 combine l r = [App o l r | o <- ops]
 
 ops :: [Op]
-ops = [Add, Sub, Mul, Div]
+ops = [Add, Sub, Mul, Div, Exp]
 
 solutions :: [Int] -> Int -> [Expr]
 solutions ns n = 

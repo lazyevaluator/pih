@@ -122,3 +122,30 @@ instance Monad Expr where
   Val x >>= _   = Val x
   Var x >>= f   = f x
   Add x y >>= f = Add (x >>= f) (y >>= f)
+
+--8
+type State = Int
+
+newtype ST a = S (State -> (a, State))
+
+--remove dummy construcor
+app :: ST a -> State -> (a, State)
+app (S st) = st
+
+instance Funtor ST where
+  --fmap :: (a -> b) -> ST a -> ST b
+  fmap g st = do x <- st
+                 return (g x)
+
+instance Applicative ST where
+  -- pure :: a -> ST a
+  pure x = S (\s -> (x,s)) 
+
+  -- (<*>) :: ST (a -> b) -> ST a -> ST b
+  stf <*> stx = do f <- stx
+                   x <- stx
+                   return (f x)
+
+instance Monad ST where
+  -- (>>=) :: ST a -> (a -> ST b) -> ST b
+  st >>= f = S (\s -> let (x, s') = app st s in app (f x) s') 
